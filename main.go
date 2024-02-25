@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/AliiAhmadi/email_validator/validate"
+	"github.com/AliiAhmadi/email_validator/validator"
 )
 
 func main() {
@@ -43,7 +43,7 @@ func run(input *string, output *string) error {
 
 	for scanner.Scan() {
 		email := scanner.Text()
-		ok, err := validate.Validate(email)
+		ok, err := validator.Validate(email)
 		if err != nil {
 			return err
 		}
