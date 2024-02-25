@@ -1,0 +1,2 @@
+ali@gmail.com --> invalid
+a@gmail.com --> invalid
