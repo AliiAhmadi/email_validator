@@ -19,6 +19,7 @@ type Validator struct {
 var (
 	//
 	EmailRX = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+	FROM_EMAIL = "aliahmadi@ut.ac.ir"
 )
 
 func New() *Validator {
@@ -73,7 +74,7 @@ func (v *Validator) Email(email string) {
 	}
 
 	// Send MAIL FROM command
-	conn.Write([]byte("MAIL FROM:<aliahmadi@ut.ac.ir>\r\n"))
+	conn.Write([]byte("MAIL FROM:<" + FROM_EMAIL + ">\r\n"))
 	_, err = conn.Read(buf)
 	if err != nil {
 		v.error = fmt.Errorf("error reading response from SMTP server: %w", err)
