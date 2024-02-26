@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"flag"
-	"log"
+	"fmt"
 	"os"
 
 	"github.com/AliiAhmadi/email_validator/validator"
@@ -14,7 +14,8 @@ func main() {
 	inp, out := args()
 
 	if err := run(inp, out); err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
+		os.Exit(1)
 	}
 }
 
@@ -43,10 +44,15 @@ func run(input *string, output *string) error {
 
 	for scanner.Scan() {
 		email := scanner.Text()
-		ok, err := validator.Validate(email)
+		v := validator.New()
+		v.Email(email)
+
+		err := v.Valid()
 		if err != nil {
 			return err
 		}
+
+		ok := v.Status()
 
 		var message string = "invalid"
 		if ok {
