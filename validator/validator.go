@@ -2,11 +2,14 @@ package validator
 
 import (
 	"regexp"
+
+	"github.com/AliiAhmadi/email_validator/log"
 )
 
 type Validator struct {
 	error  error
 	status bool
+	logger *log.Logger
 }
 
 var (
@@ -17,6 +20,7 @@ func New() *Validator {
 	return &Validator{
 		error:  nil,
 		status: false,
+		logger: log.New(),
 	}
 }
 
