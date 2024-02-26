@@ -16,4 +16,7 @@ compile_test:
 	@go build -o temp && rm -rf temp
 	@echo "compile status: OK"
 
-.PHONY: run
+vendor:
+	@go mod vendor
+
+.PHONY: run tidy build clean compile_test vendor

@@ -1,3 +1,13 @@
-ali@gmail.com
-a@gmail.com
-ali.com
+test@asrez.com
+max@asrez.com
+maxbasecode@gmail.com
+user1@example.com
+invalid_email
+user2@example.com
+user3@example.com
+98@hi2.in
+ffffffffffffffffff@hi2.in
+max@github.com
+maximilianedison@gmail.com
+lkasjdlkajsdlkajdasd@askjdaskdsdslkdjaskldjalsdjlad@dark.com
+this is test @test.com
