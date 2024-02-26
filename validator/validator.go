@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"fmt"
 	"regexp"
 
 	"github.com/AliiAhmadi/email_validator/log"
@@ -25,7 +26,8 @@ func New() *Validator {
 }
 
 func (v *Validator) Email(email string) {
-	if !v.syntax(email, EmailRX) {
+	if err := v.syntax(email, EmailRX); err != nil {
+		v.logger.Warning(err)
 		v.status = false
 		return
 	}
@@ -33,8 +35,12 @@ func (v *Validator) Email(email string) {
 	v.status = true
 }
 
-func (v *Validator) syntax(email string, rx *regexp.Regexp) bool {
-	return rx.MatchString(email)
+func (v *Validator) syntax(email string, rx *regexp.Regexp) error {
+	if !rx.MatchString(email) {
+		return fmt.Errorf("invalid syntax: %s", email)
+	}
+
+	return nil
 }
 
 func (v *Validator) Valid() error {
