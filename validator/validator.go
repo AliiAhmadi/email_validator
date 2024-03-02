@@ -71,7 +71,7 @@ func (v *Validator) Email(email string) {
 	conn.Write([]byte("EHLO lexurr.ir\r\n"))
 	_, err = conn.Read(buf)
 	if err != nil {
-		v.error = fmt.Errorf("error reading response from SMTP server: %w", err)
+		// v.error = fmt.Errorf("error reading response from SMTP server: %w", err)
 		return
 	}
 
@@ -79,7 +79,7 @@ func (v *Validator) Email(email string) {
 	conn.Write([]byte("MAIL FROM:<" + FROM_EMAIL + ">\r\n"))
 	_, err = conn.Read(buf)
 	if err != nil {
-		v.error = fmt.Errorf("error reading response from SMTP server: %w", err)
+		// v.error = fmt.Errorf("error reading response from SMTP server: %w", err)
 		return
 	}
 
@@ -87,7 +87,7 @@ func (v *Validator) Email(email string) {
 	conn.Write([]byte("RCPT TO:<" + email + ">\r\n"))
 	_, err = conn.Read(buf)
 	if err != nil {
-		v.error = fmt.Errorf("error reading response from SMTP server: %w", err)
+		// v.error = fmt.Errorf("error reading response from SMTP server: %w", err)
 		return
 	}
 
