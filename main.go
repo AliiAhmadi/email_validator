@@ -5,8 +5,14 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"sync"
 
 	"github.com/AliiAhmadi/email_validator/validator"
+)
+
+var (
+	numberOfCores = 8
+	numberOfLines = 0
 )
 
 func main() {
@@ -14,9 +20,11 @@ func main() {
 	inp, out := args()
 
 	if err := run(inp, out); err != nil {
-		fmt.Println(err)
+		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
+
+	fmt.Fprintln(os.Stdout, "Done!")
 }
 
 func args() (*string, *string) {
@@ -34,6 +42,13 @@ func run(input *string, output *string) error {
 	}
 	defer inpf.Close()
 
+	c, err := lines(*input)
+	if err != nil {
+		return err
+	}
+
+	numberOfLines = c
+
 	outf, err := os.Create(*output)
 	if err != nil {
 		return err
@@ -42,28 +57,64 @@ func run(input *string, output *string) error {
 
 	scanner := bufio.NewScanner(inpf)
 
-	for scanner.Scan() {
-		email := scanner.Text()
-		v := validator.New()
-		v.Email(email)
+	ch := make(chan bool, numberOfCores-1)
+	var wg sync.WaitGroup
+	wg.Add(numberOfLines)
 
-		err := v.Valid()
-		if err != nil {
-			return err
-		}
+	for i := 0; i < numberOfLines; i++ {
+		go func(sc *bufio.Scanner) {
+			defer func() {
+				<-ch
+				wg.Done()
+			}()
 
-		ok := v.Status()
+			sc.Scan()
+			email := sc.Text()
+			v := validator.New()
+			v.Email(email)
 
-		var message string = "invalid"
-		if ok {
-			message = "valid"
-		}
+			err := v.Valid()
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
+			}
 
-		_, err = outf.WriteString(email + " --> " + message + "\n")
-		if err != nil {
-			return err
-		}
+			ok := v.Status()
+
+			var message string = "invalid"
+			if ok {
+				message = "valid"
+			}
+
+			_, err = outf.WriteString(email + " --> " + message + "\n")
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
+			}
+		}(scanner)
+
+		ch <- true
 	}
 
+	wg.Wait()
+	close(ch)
+
 	return nil
+}
+
+func lines(file string) (int, error) {
+	f, err := os.Open(file)
+	if err != nil {
+		return 0, err
+	}
+	defer f.Close()
+
+	sc := bufio.NewScanner(f)
+	c := 0
+
+	for sc.Scan() {
+		c++
+	}
+
+	return c, nil
 }

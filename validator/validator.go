@@ -18,7 +18,7 @@ type Validator struct {
 
 var (
 	//
-	EmailRX = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+	EmailRX    = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 	FROM_EMAIL = "aliahmadi@ut.ac.ir"
 )
 
@@ -46,14 +46,16 @@ func (v *Validator) Email(email string) {
 	// DNS MX lookup to find the SMTP server for the recipient's domain
 	mx, err := net.LookupMX(parts[1])
 	if err != nil {
-		v.error = fmt.Errorf("error finding MX records: %w", err)
+		// TODO: just for now ignore error for this error when want to find MX record
+		// v.error = fmt.Errorf("error finding MX records: %w", err)
 		return
 	}
 
 	// Connecting to SMTP server
 	conn, err := net.DialTimeout("tcp", fmt.Sprintf("%s:%d", mx[0].Host, 25), 5*time.Second)
 	if err != nil {
-		v.logger.Warning(fmt.Errorf("invalid host: %s", mx[0].Host))
+		// TODO: ingore invalid hosts instead of abort application
+		// v.logger.Warning(fmt.Errorf("invalid host: %s", mx[0].Host))
 		return
 	}
 	defer conn.Close()

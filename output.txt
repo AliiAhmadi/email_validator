@@ -1,13 +1,10 @@
-test@asrez.com --> valid
-max@asrez.com --> valid
-maxbasecode@gmail.com --> valid
-user1@example.com --> invalid
-invalid_email --> invalid
-user2@example.com --> invalid
-user3@example.com --> invalid
-98@hi2.in --> valid
-ffffffffffffffffff@hi2.in --> invalid
-max@github.com --> valid
-maximilianedison@gmail.com --> invalid
-lkasjdlkajsdlkajdasd@askjdaskdsdslkdjaskldjalsdjlad@dark.com --> invalid
-this is test @test.com --> invalid
+adipiscing@convallisestvitae.com --> invalid
+Nunc.sed.orci@rhoncusDonecest.org --> invalid
+augue@Cumsociis.co.uk --> invalid
+et.rutrum.eu@nisidictumaugue.ca --> invalid
+lorem.Donec.elementum@arcuNunc.ca --> invalid
+molestie.in.tempus@nuncQuisque.edu --> invalid
+imperdiet.nec.leo@etmalesuadafames.net --> invalid
+imperdiet@InloremDonec.ca --> invalid
+pede@tempuslorem.net --> invalid
+a.sollicitudin.orci@ut.edu --> valid
