@@ -63,7 +63,7 @@ func (v *Validator) Email(email string) {
 	// Read initial response from the SMTP server
 	_, err = conn.Read(buf)
 	if err != nil {
-		v.error = fmt.Errorf("error reading response from SMTP server: %w", err)
+		// v.error = fmt.Errorf("error reading response from SMTP server: %w", err)
 		return
 	}
 

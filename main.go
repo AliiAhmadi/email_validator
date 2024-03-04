@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	numberOfCores = 8
+	numberOfCores = 16
 	numberOfLines = 0
 )
 
@@ -81,15 +81,12 @@ func run(input *string, output *string) error {
 
 			ok := v.Status()
 
-			var message string = "invalid"
 			if ok {
-				message = "valid"
-			}
-
-			_, err = outf.WriteString(email + " --> " + message + "\n")
-			if err != nil {
-				fmt.Fprintln(os.Stderr, err)
-				os.Exit(1)
+				_, err = outf.WriteString(email + "\n")
+				if err != nil {
+					fmt.Fprintln(os.Stderr, err)
+					os.Exit(1)
+				}
 			}
 		}(scanner)
 
